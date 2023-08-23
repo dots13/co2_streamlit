@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 import pickle
 from pathlib import Path
+import gdown
 
 import os
 from dash import Dash, dcc, html, Input, Output
 import plotly.graph_objects as go
-
 
 # Path to data
 script_dir = os.path.dirname(__file__)  # the cwd relative path of the script file
@@ -21,27 +21,35 @@ df = df.loc[1920:]
 
 # Hosted on my personal account until I figure something else out
 cloud_model_location = "1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY"
+#https://drive.google.com/file/d/1hLzhtsnuRAALbmkuXSv4dO8vJUEKX7rZ/view?usp=drive_link
 
-
-def load_model(col):
+models_dic = {}
+def load_model():
     save_dest = Path('models')
     save_dest.mkdir(exist_ok=True)
-
-    f_checkpoint = Path(f"models/{col}_ARIMA_Model.pkl")
+    f_checkpoint = Path(f"models//co2_ARIMA_Model.pkl")
 
     if not f_checkpoint.exists():
         with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
-            from GD_download import download_file_from_google_drive
-            download_file_from_google_drive(cloud_model_location, f_checkpoint)
+            google_link = 'https://drive.google.com/drive/folders/1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY?usp=drive_link'
+            gdown.download_folder(id='1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY', quiet=True, use_cookies=False)
+        print('NOOOOOOOOOO')
+    else:
+        for col in df.columns:
+            name = Path(f"models/{col}_ARIMA_Model.pkl")
+            modelicka = pickle.load(open(name, "rb"))
+            models_dic[col] = modelicka
 
-    @st.cache_resource
-    def model_loadder(f_checkpoint):
-        return pickle.load(open(f_checkpoint, "rb"))
 
-    model = model_loadder(f_checkpoint)
+###
+# Create a dic with models
+#models_dic = {}
+#for col in df.columns:
+    #another model
+#    modelichka = load_model(col)
+#    models_dic[col] = modelichka
 
-    print(model)
-    return model
+###
 
 
 color_palette = {
@@ -63,13 +71,7 @@ color_palette_forecast = {
 }
 
 def main():
-    # Create a dic with models
-    models_dic = {}
-    for col in df.columns:
-        modelicka = load_model(col)
-        models_dic[col] = modelicka
-
-
+    load_model()
     st.title('CO2 Emissions Forecasting App')
     features = list(df.columns)
     selected_features = st.multiselect(
