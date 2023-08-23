@@ -5,7 +5,6 @@ from pathlib import Path
 import gdown
 
 import os
-from dash import Dash, dcc, html, Input, Output
 import plotly.graph_objects as go
 
 # Path to data
@@ -23,15 +22,15 @@ models_dic = {}
 def load_model():
     save_dest = Path('models')
     save_dest.mkdir(exist_ok=True)
-    f_checkpoint = Path(f"models")
+    f_checkpoint = Path(f"models//co2_ARIMA_Model.pkl")
     if not f_checkpoint.exists():
         with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
             gdown.download_folder(id='1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY', quiet=True, use_cookies=False)
-def create_dic():
-    for col in df.columns:
-        name = Path(f"models/{col}_ARIMA_Model.pkl")
-        modelicka = pickle.load(open(name, "rb"))
-        models_dic[col] = modelicka
+    else:
+        for col in df.columns:
+            name = Path(f"models/{col}_ARIMA_Model.pkl")
+            modelicka = pickle.load(open(name, "rb"))
+            models_dic[col] = modelicka
 
 
 color_palette = {
@@ -54,7 +53,6 @@ color_palette_forecast = {
 
 def main():
     load_model()
-    create_dic()
     st.title('CO2 Emissions Forecasting App')
     features = list(df.columns)
     selected_features = st.multiselect(
