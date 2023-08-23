@@ -19,37 +19,19 @@ df.drop('country', axis=1, inplace=True)
 # select values only after 1920
 df = df.loc[1920:]
 
-# Hosted on my personal account until I figure something else out
-cloud_model_location = "1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY"
-#https://drive.google.com/file/d/1hLzhtsnuRAALbmkuXSv4dO8vJUEKX7rZ/view?usp=drive_link
-
 models_dic = {}
 def load_model():
     save_dest = Path('models')
     save_dest.mkdir(exist_ok=True)
-    f_checkpoint = Path(f"models//co2_ARIMA_Model.pkl")
-
+    f_checkpoint = Path(f"models")
     if not f_checkpoint.exists():
         with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
-            google_link = 'https://drive.google.com/drive/folders/1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY?usp=drive_link'
             gdown.download_folder(id='1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY', quiet=True, use_cookies=False)
-        print('NOOOOOOOOOO')
-    else:
-        for col in df.columns:
-            name = Path(f"models/{col}_ARIMA_Model.pkl")
-            modelicka = pickle.load(open(name, "rb"))
-            models_dic[col] = modelicka
-
-
-###
-# Create a dic with models
-#models_dic = {}
-#for col in df.columns:
-    #another model
-#    modelichka = load_model(col)
-#    models_dic[col] = modelichka
-
-###
+def create_dic():
+    for col in df.columns:
+        name = Path(f"models/{col}_ARIMA_Model.pkl")
+        modelicka = pickle.load(open(name, "rb"))
+        models_dic[col] = modelicka
 
 
 color_palette = {
@@ -72,6 +54,7 @@ color_palette_forecast = {
 
 def main():
     load_model()
+    create_dic()
     st.title('CO2 Emissions Forecasting App')
     features = list(df.columns)
     selected_features = st.multiselect(
