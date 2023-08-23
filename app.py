@@ -19,6 +19,10 @@ df.drop('country', axis=1, inplace=True)
 df = df.loc[1920:]
 
 models_dic = {}
+
+@st.cache
+def load_pkl(path):
+    return pickle.load(open(path, "rb"))
 def load_model():
     save_dest = Path('models')
     save_dest.mkdir(exist_ok=True)
@@ -28,8 +32,8 @@ def load_model():
             gdown.download_folder(id='1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY', quiet=True, use_cookies=False)
     else:
         for col in df.columns:
-            name = Path(f"models/{col}_ARIMA_Model.pkl")
-            modelicka = pickle.load(open(name, "rb"))
+            path_to_model = Path(f"models/{col}_ARIMA_Model.pkl")
+            modelicka = load_pkl(path_to_model)
             models_dic[col] = modelicka
 
 
