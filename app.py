@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import pickle
+from pathlib import Path
 
 import os
 from dash import Dash, dcc, html, Input, Output
@@ -18,15 +19,30 @@ df.drop('country', axis=1, inplace=True)
 # select values only after 1920
 df = df.loc[1920:]
 
-# Create a dic with models
-models_dic = {}
-for col in df.columns:
-    # Path to model
-    rel_path_model = f"models/{col}_ARIMA_Model.pkl"  # the target file
-    rel_to_cwd_path_model = os.path.join(script_dir, rel_path_model)  # the cwd-relative path of the target file
-    # Load model
-    loaded = pickle.load(open(rel_to_cwd_path_model, "rb"))
-    models_dic[col] = loaded
+# Hosted on my personal account until I figure something else out
+cloud_model_location = "1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY"
+
+
+def load_model(col):
+    save_dest = Path('models')
+    save_dest.mkdir(exist_ok=True)
+
+    f_checkpoint = Path(f"models/{col}_ARIMA_Model.pkl")
+
+    if not f_checkpoint.exists():
+        with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
+            from GD_download import download_file_from_google_drive
+            download_file_from_google_drive(cloud_model_location, f_checkpoint)
+
+    @st.cache_resource
+    def model_loadder(f_checkpoint):
+        return pickle.load(open(f_checkpoint, "rb"))
+
+    model = model_loadder(f_checkpoint)
+
+    print(model)
+    return model
+
 
 color_palette = {
     'gas_co2': '#85DBF7',
@@ -47,6 +63,13 @@ color_palette_forecast = {
 }
 
 def main():
+    # Create a dic with models
+    models_dic = {}
+    for col in df.columns:
+        modelicka = load_model(col)
+        models_dic[col] = modelicka
+
+
     st.title('CO2 Emissions Forecasting App')
     features = list(df.columns)
     selected_features = st.multiselect(
