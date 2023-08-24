@@ -20,7 +20,7 @@ df = df.loc[1920:]
 
 models_dic = {}
 
-@st.cache
+@st.cache_resource
 def load_pkl(path):
     return pickle.load(open(path, "rb"))
 def load_model():
