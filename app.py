@@ -114,6 +114,7 @@ def main():
             fig.add_trace(go.Scatter(x=year_list, y=predicted_values,
                                      mode='lines',
                                      marker_color=color_palette_forecast['co2'],
+                                     name=f"forecast {feature}",
                                      showlegend=False)
                           )
 
