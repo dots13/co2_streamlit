@@ -19,7 +19,7 @@ df.drop('country', axis=1, inplace=True)
 df = df.loc[1920:]
 
 models_dic = {}
-
+#https://drive.google.com/drive/folders/1FGMqUu0GT6Ldo2VkSDlPAjZ21lI3uCIa?usp=drive_link
 @st.cache_resource
 def load_pkl(path):
     return pickle.load(open(path, "rb"))
@@ -29,7 +29,7 @@ def load_model():
     f_checkpoint = Path(f"models//co2_ARIMA_Model.pkl")
     if not f_checkpoint.exists():
         with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
-            gdown.download_folder(id='1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY', quiet=True, use_cookies=False)
+            gdown.download_folder(id='1FGMqUu0GT6Ldo2VkSDlPAjZ21lI3uCIa', quiet=True, use_cookies=False)
     else:
         for col in df.columns:
             path_to_model = Path(f"models/{col}_ARIMA_Model.pkl")
