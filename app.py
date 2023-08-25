@@ -134,14 +134,22 @@ def main():
                                          mode='lines',
                                          marker_color=color_palette[feature],
                                          name=feature))
-            model = models_dic[feature]
-            predicted_values = model.forecast(months)
-            fig.add_trace(go.Scatter(x=forecasting_points, y=predicted_values,
-                                     mode='lines',
-                                     marker_color='red',
-                                     name=f"forecast {feature}",
-                                     showlegend=False)
-                          )
+                model = models_dic[feature]
+                predicted_values = model.forecast(months)
+                fig.add_trace(go.Scatter(x=forecasting_points, y=predicted_values,
+                                         mode='lines',
+                                         marker_color='red',
+                                         name=f"forecast {feature}",
+                                         showlegend=False)
+                            )
+            else:
+                model = models_dic[feature]
+                predicted_values = model.forecast(months)
+                fig.add_trace(go.Scatter(x=forecasting_points, y=predicted_values,
+                                         mode='lines',
+                                         marker_color=color_palette[feature],
+                                         name=feature))
+
 
     st.plotly_chart(fig, theme=None)
 
