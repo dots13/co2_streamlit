@@ -57,6 +57,7 @@ color_palette_forecast = {
 
 def main():
     load_model()
+    print(models_dic)
     st.title('CO2 Emissions Forecasting App')
     features = list(df.columns)
     selected_features = st.multiselect(
