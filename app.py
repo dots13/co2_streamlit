@@ -14,7 +14,7 @@ rel_to_cwd_path = os.path.join(script_dir, rel_path)  # the cwd-relative path of
 
 # Read csv file
 df = pd.read_csv(rel_to_cwd_path, index_col='year')
-#df.drop('country', axis=1, inplace=True)
+#df.drop(['land_use_change_co2', 'other_industry_co2'], axis=1, inplace=True)
 # select values only after 1920
 df = df.loc['1920-01-01':]
 
@@ -30,11 +30,6 @@ def load_model():
     if not f_checkpoint.exists():
         with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
             gdown.download_folder(id='1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY', quiet=True, use_cookies=False)
-    else:
-        for col in df.columns:
-            path_to_model = Path(f"models/{col}_ARIMA_Model.pkl")
-            modelicka = ARIMAResults.load(path_to_model)
-            models_dic[col] = modelicka
 
 
 color_palette = {
@@ -58,7 +53,13 @@ color_palette_forecast = {
 }
 
 def main():
-    load_model()
+    f_checkpoint = Path(f"models//co2_ARIMA_Model.pkl")
+    while not f_checkpoint.exists():
+        load_model()
+    for col in df.columns:
+        path_to_model = Path(f"models/{col}_ARIMA_Model.pkl")
+        modelicka = ARIMAResults.load(path_to_model)
+        models_dic[col] = modelicka
     print(models_dic)
     st.title('CO2 Emissions Forecasting App')
     features = list(df.columns)
@@ -85,6 +86,12 @@ def main():
                 }
                 span[data-baseweb="tag"][aria-label="coal_co2, close by backspace"]{
                     background-color: #6E6E6E;
+                }
+                span[data-baseweb="tag"][aria-label="other_industry_co2, close by backspace"]{
+                    background-color: #F54C95;
+                }
+                span[data-baseweb="tag"][aria-label="land_use_change_co2, close by backspace"]{
+                    background-color: #549439;
                 }
             </style>
             """, unsafe_allow_html=True)
