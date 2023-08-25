@@ -22,6 +22,7 @@ models_dic = {}
 @st.cache_resource
 def load_pkl(path):
     return pickle.load(open(path, "rb"))
+
 def load_model():
     save_dest = Path('models')
     save_dest.mkdir(exist_ok=True)
@@ -95,9 +96,9 @@ def main():
              unsafe_allow_html=True)
 
     radio_choose = st.radio("Choose plot option", ("Forecasted Values", "Whole Dataset"))
+    months = st.slider('Select the number of months for prediction:', 1, 96, value=1)
 
-
-    forecasting_points = pd.date_range(start='2021-01-01', periods=96, freq="1M")
+    forecasting_points = pd.date_range(start='2021-01-01', periods=months, freq="1M")
 
     fig = go.Figure()
     fig.update_xaxes(showline=True, linewidth=1, linecolor='rgb(96, 103, 117)', gridcolor='rgb(96, 103, 117)')
@@ -113,7 +114,7 @@ def main():
                                          marker_color=color_palette[feature],
                                          name=feature))
             model = models_dic[feature]
-            predicted_values = model.forecast(96)
+            predicted_values = model.forecast(months)
             fig.add_trace(go.Scatter(x=forecasting_points, y=predicted_values,
                                      mode='lines',
                                      marker_color='red',
