@@ -3,20 +3,20 @@ import pandas as pd
 import pickle
 from pathlib import Path
 import gdown
-
+from statsmodels.tsa.arima.model import ARIMAResults
 import os
 import plotly.graph_objects as go
 
 # Path to data
 script_dir = os.path.dirname(__file__)  # the cwd relative path of the script file
-rel_path = "data/owid-world-data.csv"  # the target file
+rel_path = "data/WORLD-OWID-Features-Monthly.csv"  # the target file
 rel_to_cwd_path = os.path.join(script_dir, rel_path)  # the cwd-relative path of the target file
 
 # Read csv file
 df = pd.read_csv(rel_to_cwd_path, index_col='year')
-df.drop('country', axis=1, inplace=True)
+#df.drop('country', axis=1, inplace=True)
 # select values only after 1920
-df = df.loc[1920:]
+df = df.loc['1920-01-01':]
 
 models_dic = {}
 @st.cache_resource
@@ -32,7 +32,7 @@ def load_model():
     else:
         for col in df.columns:
             path_to_model = Path(f"models/{col}_ARIMA_Model.pkl")
-            modelicka = load_pkl(path_to_model)
+            modelicka = ARIMAResults.load(path_to_model)
             models_dic[col] = modelicka
 
 
@@ -42,7 +42,9 @@ color_palette = {
     'oil_co2': '#17C07F',
     'cement_co2': '#C7D0D2',
     'co2': '#EB5858',
-    'coal_co2': '#6E6E6E'
+    'coal_co2': '#6E6E6E',
+    'other_industry_co2': '#F54C95',
+    'land_use_change_co2': '#F54C95'
 }
 
 color_palette_forecast = {
@@ -85,7 +87,6 @@ def main():
                 }
             </style>
             """, unsafe_allow_html=True)
-    #st.multiselect("Options", ["gas_co2", "flaring_co2", "oil_co2", "cement_co2", "co2", "coal_co2"])
 
     st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: start;} </style>',
              unsafe_allow_html=True)
@@ -95,7 +96,9 @@ def main():
 
     radio_choose = st.radio("Choose plot option", ("Forecasted Values", "Whole Dataset"))
 
-    year_list = [i for i in range(2021, 2022 + 10)]
+
+    forecasting_points = pd.date_range(start='2021-01-01', periods=96, freq="1M")
+
     fig = go.Figure()
     fig.update_xaxes(showline=True, linewidth=1, linecolor='rgb(96, 103, 117)', gridcolor='rgb(96, 103, 117)')
     fig.update_yaxes(showline=True, linewidth=1, linecolor='rgb(96, 103, 117)', gridcolor='rgb(96, 103, 117)')
@@ -110,10 +113,10 @@ def main():
                                          marker_color=color_palette[feature],
                                          name=feature))
             model = models_dic[feature]
-            predicted_values = model.forecast(10)
-            fig.add_trace(go.Scatter(x=year_list, y=predicted_values,
+            predicted_values = model.forecast(96)
+            fig.add_trace(go.Scatter(x=forecasting_points, y=predicted_values,
                                      mode='lines',
-                                     marker_color=color_palette_forecast['co2'],
+                                     marker_color='red',
                                      name=f"forecast {feature}",
                                      showlegend=False)
                           )
