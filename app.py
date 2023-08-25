@@ -19,7 +19,6 @@ df.drop('country', axis=1, inplace=True)
 df = df.loc[1920:]
 
 models_dic = {}
-
 @st.cache_resource
 def load_pkl(path):
     return pickle.load(open(path, "rb"))
