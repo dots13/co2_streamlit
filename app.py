@@ -18,18 +18,17 @@ df = pd.read_csv(rel_to_cwd_path, index_col='year')
 # select values only after 1920
 df = df.loc['1920-01-01':]
 
-models_dic = {}
+
 @st.cache_resource
 def load_pkl(path):
-    return pickle.load(open(path, "rb"))
+    return ARIMAResults.load(path_to_model)
 
+#https://drive.google.com/drive/folders/1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY?usp=drive_link
+#https://drive.google.com/drive/folders/1ow4duyt0nIOjOcK972U6kLOCf1v1Q-Z-?usp=drive_link
 def load_model():
-    save_dest = Path('models')
-    save_dest.mkdir(exist_ok=True)
     f_checkpoint = Path(f"models//co2_ARIMA_Model.pkl")
-    if not f_checkpoint.exists():
-        with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
-            gdown.download_folder(id='1VnXQ4M-5c-7wiZ5krgOSGpp-FXzeeJnY', quiet=True, use_cookies=False)
+    with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
+        gdown.download_folder(id='1ow4duyt0nIOjOcK972U6kLOCf1v1Q-Z-', quiet=True, use_cookies=False)
 
 
 color_palette = {
@@ -40,7 +39,7 @@ color_palette = {
     'co2': '#EB5858',
     'coal_co2': '#6E6E6E',
     'other_industry_co2': '#F54C95',
-    'land_use_change_co2': '#F54C95'
+    'land_use_change_co2': '#549439'
 }
 
 color_palette_forecast = {
@@ -52,14 +51,21 @@ color_palette_forecast = {
     'coal_co2': '#927373'
 }
 
-def main():
-    f_checkpoint = Path(f"models//co2_ARIMA_Model.pkl")
-    while not f_checkpoint.exists():
+models_dic = {}
+save_dest = Path('models')
+save_dest.mkdir(exist_ok=True)
+
+for col in df.columns:
+    f_checkpoint = Path(f"models/{col}_ARIMA_Model.pkl")
+    if not f_checkpoint.exists():
         load_model()
-    for col in df.columns:
+    else:
         path_to_model = Path(f"models/{col}_ARIMA_Model.pkl")
-        modelicka = ARIMAResults.load(path_to_model)
+        modelicka = load_pkl(path_to_model)
         models_dic[col] = modelicka
+
+def main():
+
     print(models_dic)
     st.title('CO2 Emissions Forecasting App')
     features = list(df.columns)
