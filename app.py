@@ -7,6 +7,8 @@ from statsmodels.tsa.arima.model import ARIMAResults
 import os
 import plotly.graph_objects as go
 
+st.set_page_config(page_title='Predicting CO2 Emissions', layout = 'wide', page_icon = ':earth_africa:', initial_sidebar_state = 'auto')
+
 # Path to data
 script_dir = os.path.dirname(__file__)  # the cwd relative path of the script file
 rel_path = "data/WORLD-OWID-Features-Monthly.csv"  # the target file
