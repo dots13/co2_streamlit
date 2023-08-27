@@ -77,7 +77,7 @@ def main():
 
     selected_feature_box = st.selectbox(
         'Select your Industry',
-        feature_list)
+        set(feature_list))
 
     st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: start;} </style>',
              unsafe_allow_html=True)
