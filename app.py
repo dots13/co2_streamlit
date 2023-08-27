@@ -77,12 +77,9 @@ def main():
 
     selected_feature_box = st.selectbox(
         "Select your Industry",
-        ('Gas', 'Flaring', 'Oil', 'Cement', 'Co2', 'Coal', 'Other industry')
+        feature_list
     )
     
-    option = st.selectbox(
-        'How would you like to be contacted?',
-        ('Email', 'Home phone', 'Mobile phone'))
 
     st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: start;} </style>',
              unsafe_allow_html=True)
