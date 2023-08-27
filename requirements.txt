@@ -72,6 +72,6 @@ validators==0.20.0
 watchdog==3.0.0
 wcwidth==0.2.6
 Werkzeug==2.2.3
-zipp==3.16.2
+zipp==3.15.0
 pathlib==1.0.1
 gdown==4.7.1
