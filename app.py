@@ -87,8 +87,6 @@ def main():
     st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: start;} </style>',
              unsafe_allow_html=True)
 
-    st.write('<style>div.st-bf{flex-direction:column;} div.st-ag{font-weight:bold;padding-left:2px;}</style>',
-             unsafe_allow_html=True)
 
     radio_choose = st.radio("Choose plot option", ("Forecasted Values", "Whole Dataset"))
     #months = st.slider('Select the number of months for prediction:', 1, 120, value=1)
