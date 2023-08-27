@@ -76,8 +76,9 @@ def main():
     st.title('CO2 Emissions Forecasting App')
 
     selected_feature_box = st.selectbox(
-        'Select your Industry',
-        set(feature_list))
+        "Select your Industry",
+        ('Gas', 'Flaring', 'Oil', 'Cement', 'Co2', 'Coal', 'Other industry')
+    )
 
     st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: start;} </style>',
              unsafe_allow_html=True)
