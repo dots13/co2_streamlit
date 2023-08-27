@@ -57,7 +57,7 @@ scipy
 six==1.16.0
 smmap==5.0.0
 stack-data==0.6.2
-statsmodels==0.14.0
+statsmodels
 streamlit==1.25.0
 tenacity==8.2.2
 toml==0.10.2
