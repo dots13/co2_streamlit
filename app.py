@@ -8,6 +8,7 @@ import os
 import plotly.graph_objects as go
 
 st.set_page_config(page_title='Predicting CO2 Emissions', layout = 'wide', page_icon = ':earth_africa:', initial_sidebar_state = 'auto')
+st.set_option('wideMode' , True)
 
 # Path to data
 script_dir = os.path.dirname(__file__)  # the cwd relative path of the script file
@@ -78,43 +79,6 @@ def main():
     selected_feature_box = st.selectbox(
         'Select your Industry',
         feature_list)
-
-    st.markdown("""
-                <style>
-                    span[data-baseweb="tag"][aria-label="gas_co2, close by backspace"]{
-                        background-color: #85DBF7;
-                        justify-content: start;
-                    }
-                    span[data-baseweb="tag"][aria-label="flaring_co2, close by backspace"]{
-                        background-color: #FFE760;
-                        justify-content: start;
-                    }
-                    span[data-baseweb="tag"][aria-label="oil_co2, close by backspace"]{
-                        background-color: #17C07F;
-                        justify-content: start;
-                    }
-                    span[data-baseweb="tag"][aria-label="cement_co2, close by backspace"]{
-                        background-color: #DFE9EB;
-                        justify-content: start;
-                    }
-                    span[data-baseweb="tag"][aria-label="co2, close by backspace"]{
-                        background-color: #EF0000;
-                        justify-content: start;
-                    }
-                    span[data-baseweb="tag"][aria-label="coal_co2, close by backspace"]{
-                        background-color: #6E6E6E;
-                        justify-content: start;
-                    }
-                    span[data-baseweb="tag"][aria-label="other_industry_co2, close by backspace"]{
-                        background-color: #F54C95;
-                        justify-content: start;
-                    }
-                    span[data-baseweb="tag"][aria-label="land_use_change_co2, close by backspace"]{
-                        background-color: #549439;
-                        justify-content: start;
-                    }
-                </style>
-                """, unsafe_allow_html=True)
 
     st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: start;} </style>',
              unsafe_allow_html=True)
