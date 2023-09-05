@@ -125,7 +125,7 @@ def main():
                                      )
                           )
         #fig.update_yaxes(ticksuffix="$")
-        fig.update_layout(title="CO2 Forecusting for 10 years.",
+        fig.update_layout(title="CO2 Forecasting for 10 years.",
                           yaxis_title='Million tonnes')
         st.plotly_chart(fig, theme=None)
 
