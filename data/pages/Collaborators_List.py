@@ -1,5 +1,4 @@
 import streamlit as st
-
 st.title('Omdena CO2 emissions project')
 st.header(' ', divider='grey')
 st.subheader('Active Collaborators List')
