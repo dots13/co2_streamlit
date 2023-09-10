@@ -1,6 +1,6 @@
 import streamlit as st
-st.title('Omdena CO2 emissions project')
-st.header(' ', divider='rainbow')
+st.title('Omdena CO2 emissions project', anchor=None)
+#st.header(' ', divider='rainbow')
 st.subheader('Active Collaborators List')
 st.write('Aisha Yasir')
 st.write('Anastasiia Marchenko')
