@@ -1,6 +1,6 @@
 import streamlit as st
 st.title('Omdena CO2 emissions project', anchor=None)
-#st.header(' ', divider='rainbow')
+st.header(' ', divider='rainbow')
 st.subheader('Active Collaborators List')
 
 st.markdown(
@@ -17,7 +17,6 @@ st.markdown(
 - Hilda Posada
 - Marvin Lav
 - "Mateusz Filipowicz
-- "
 - Mohamed Chahed
 - Neev Goenka
 - Nurullah Sirca
