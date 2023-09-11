@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(page_title='Predicting CO2 Emissions', page_icon=':earth_africa:', initial_sidebar_state='auto')
 st.title('Omdena CO2 emissions project', anchor=None)
 st.subheader('Active Collaborators List')
 
@@ -33,3 +34,11 @@ st.markdown(
 - Shaista Hussain
 """
 )
+
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)

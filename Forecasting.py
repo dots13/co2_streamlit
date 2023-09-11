@@ -131,6 +131,13 @@ def main():
         df_final = pd.DataFrame(df_pred.groupby(df_pred['date'].dt.year)['CO2 Million tonnes'].mean())
         st.dataframe(df_final.T)
 
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
