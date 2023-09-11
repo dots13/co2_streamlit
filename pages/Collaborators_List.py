@@ -15,7 +15,7 @@ st.markdown(
 - Gabriela Enríquez
 - Hilda Posada
 - Marvin Lav
-- "Mateusz Filipowicz
+- Mateusz Filipowicz
 - Mohamed Chahed
 - Neev Goenka
 - Nurullah Sirca
