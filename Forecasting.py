@@ -72,7 +72,7 @@ for col in df.columns:
 
 def main():
     feature_list = ['Gas', 'Flaring', 'Oil', 'Cement', 'Co2', 'Coal', 'Other industry']
-    st.title('CO2 Emissions Forecasting App')
+    st.title('CO2 Emissions Forecasting')
 
     selected_feature_box = st.selectbox(
         "Select your Industry",
