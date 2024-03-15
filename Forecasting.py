@@ -33,7 +33,7 @@ def load_pkl(path):
 def load_model():
     f_checkpoint = Path(f"models//co2_ARIMA_Model.pkl")
     with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
-        gdown.download(id='1ow4duyt0nIOjOcK972U6kLOCf1v1Q-Z-', quiet=True, use_cookies=False)
+        gdown.download_folder(id='1ow4duyt0nIOjOcK972U6kLOCf1v1Q-Z-', quiet=True, use_cookies=False)
 
 
 color_palette = {
