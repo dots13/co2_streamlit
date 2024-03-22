@@ -6,6 +6,7 @@ import gdown
 from statsmodels.tsa.arima.model import ARIMAResults
 import os
 import plotly.graph_objects as go
+import streamlit as st
 
 st.set_page_config(page_title='Predicting CO2 Emissions', page_icon=':earth_africa:', initial_sidebar_state='auto')
 
